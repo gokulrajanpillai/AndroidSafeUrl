@@ -6,14 +6,15 @@ import androidx.lifecycle.ViewModel;
 
 public class BrowserViewModel extends ViewModel {
 
+
     private final MutableLiveData<String> mText;
 
     public BrowserViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("www.google.de");
     }
 
-    public LiveData<String> getText() {
+    public LiveData<String> getURL() {
         return mText;
     }
 }
