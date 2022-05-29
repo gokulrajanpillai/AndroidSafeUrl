@@ -5,16 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.browser.BrowserFragment"
-    android:background="@color/black">
+    android:background="@color/design_default_color_primary_variant">
+
+    <LinearLayout
+        android:id="@+id/url_layout"
+        android:background="@color/design_default_color_primary_variant"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        app:layout_constraintBottom_toTopOf="@id/webview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:weightSum="10"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/default_margin">
+
+        <EditText
+            android:id="@+id/url_tv"
+            android:background="@color/white"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:id="@+id/go_btn"
+            android:text="GO"
+            android:padding="0dp"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:background="@color/design_default_color_primary"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
 
     <WebView
         android:id="@+id/webview"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/url_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
