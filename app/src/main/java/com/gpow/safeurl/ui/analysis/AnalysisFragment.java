@@ -24,6 +24,10 @@ public class AnalysisFragment extends Fragment {
 
     private FragmentAnalysisBinding binding;
 
+    private String final_url;
+    private String final_verdict = "Suspicious";
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 //        AnalysisViewModel analysisViewModel =
@@ -35,8 +39,24 @@ public class AnalysisFragment extends Fragment {
 //        final TextView textView = binding.textDashboard;
 //        analysisViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        checkForUrlRedirection("https://shorturl.at/ehqAE");
+        viewSetup();
         return root;
+    }
+
+    private void viewSetup() {
+
+        binding.urlField.setText("https://google.de");
+        binding.goBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = String.valueOf(binding.urlField.getText());
+                if (!url.contains("http")) {
+                    url = "http://" + url;
+                    binding.urlField.setText(url);
+                }
+                checkForUrlRedirection(url);
+            }
+        });
     }
 
     private void checkForUrlRedirection(String url_str) {
@@ -45,22 +65,12 @@ public class AnalysisFragment extends Fragment {
         Runnable runnable = new Runnable() {
             public void run() {
                 try {
-
-//                    HttpURLConnection con = (HttpURLConnection)(new URL(url_str).openConnection());
-//                    con.setInstanceFollowRedirects( false );
-//                    con.connect();
-//                    int responseCode = con.getResponseCode();
-//                    System.out.println( responseCode );
-//                    String location = con.getHeaderField( "Location" );
-//                    System.out.println( location );
-
                     String response_text = getURLContent(url_str);
-
                     handler.post(new Runnable(){
                         public void run() {
-                            binding.textDashboard.setText(binding.textDashboard.getText() + response_text);
-//                                    "\n\n Response code: " + responseCode +
-//                                    "\n Redirected URL: " + location + "\n\n");
+                            binding.textDashboard.setText("URL redirection check\n==================" +
+                                    binding.textDashboard.getText() + response_text +
+                                    "\n\nSummary\n=======\n:::Actual URL:::\n" + final_url + "\n\n:::Verdict:::\n" + final_verdict);
                         }
                     });
                 }
@@ -75,6 +85,7 @@ public class AnalysisFragment extends Fragment {
 
     public String getURLContent(String url_str) {
 
+        final_url = url_str;
         String response_text = "";
         try {
             HttpURLConnection con = (HttpURLConnection)(new URL(url_str).openConnection());
@@ -85,20 +96,26 @@ public class AnalysisFragment extends Fragment {
             String location = con.getHeaderField( "Location" );
             System.out.println( location );
 
-            response_text = "\n\n Response code: " + responseCode + "\n Redirected URL: " + location + "\n\n";
+            response_text = "\n\n Response code: " + responseCode + "\n Redirected URL: " + url_str;
             if (responseCode == 301 || responseCode == 302) {
                 String new_response = getURLContent(location);
                 return response_text + new_response;
             }
             else {
+                if (responseCode == 200) {
+                    final_verdict = "Safe";
+                }
                 return response_text;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            String error_msg = String.valueOf(e.getCause());
+            if (error_msg.contains("CertificateException")) {
+                error_msg = "Unknown/ Invalid certificate";
+                final_verdict = "Not secure";
+            }
+            return "\n\n Response code: " + e.getCause() + "\n Redirected URL: " + url_str;
         }
-
-        System.out.println("This should not happen");
-        return "";
     }
 
     @Override

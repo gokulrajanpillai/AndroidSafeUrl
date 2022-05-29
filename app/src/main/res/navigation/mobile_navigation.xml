@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_browser">
-
-    <fragment
-        android:id="@+id/navigation_browser"
-        android:name="com.gpow.safeurl.ui.browser.BrowserFragment"
-        android:label="@string/title_browser"
-        tools:layout="@layout/fragment_browser" />
+    app:startDestination="@id/navigation_analysis">
 
     <fragment
         android:id="@+id/navigation_analysis"
         android:name="com.gpow.safeurl.ui.analysis.AnalysisFragment"
         android:label="@string/title_analysis"
         tools:layout="@layout/fragment_analysis" />
+
+    <fragment
+        android:id="@+id/navigation_browser"
+        android:name="com.gpow.safeurl.ui.browser.BrowserFragment"
+        android:label="@string/title_browser"
+        tools:layout="@layout/fragment_browser" />
 
     <fragment
         android:id="@+id/navigation_settings"

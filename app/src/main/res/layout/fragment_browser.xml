@@ -23,6 +23,7 @@
         <EditText
             android:id="@+id/url_tv"
             android:background="@color/white"
+            android:singleLine="true"
             android:layout_weight="8"
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
