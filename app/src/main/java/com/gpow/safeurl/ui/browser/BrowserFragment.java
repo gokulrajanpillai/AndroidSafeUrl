@@ -2,6 +2,7 @@ package com.gpow.safeurl.ui.browser;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,6 @@ public class BrowserFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             webView.getSettings().setSafeBrowsingEnabled(true);
         }
-
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setGeolocationEnabled(true);
@@ -63,7 +63,7 @@ public class BrowserFragment extends Fragment {
             }
         });
 
-        webView.loadUrl("http://www.google.com");
+        loadWebUrl("http://www.google.com");
     }
 
 
@@ -80,11 +80,37 @@ public class BrowserFragment extends Fragment {
 
 
     private void loadWebUrl(String url) {
+
+        binding.webview.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+        binding.webview.getSettings().setLoadWithOverviewMode(true);
+        binding.webview.getSettings().setUseWideViewPort(true);
+
+        // Assign webView configuration
+        Boolean flagJavascript = getData("safeurl.Javascript",false);
+        Boolean flagSafeBrowser = getData("safeurl.SafeBrowser",true);
+        Boolean flagGeolocationData = getData("safeurl.GeolocationData",false);
+        Boolean flagFileAccess = getData("safeurl.FileAccess",false);
+
+        //
+        binding.webview.getSettings().setJavaScriptEnabled(flagJavascript);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            binding.webview.getSettings().setSafeBrowsingEnabled(flagSafeBrowser);
+        }
+        binding.webview.getSettings().setGeolocationEnabled(flagGeolocationData);
+        binding.webview.getSettings().setAllowFileAccess(flagFileAccess);
+        binding.webview.getSettings().setAllowFileAccessFromFileURLs(flagFileAccess);
+        binding.webview.getSettings().setAllowContentAccess(flagFileAccess);
+
         if (!url.contains("http")) {
             url = "http://" + url;
             binding.urlTv.setText(url);
         }
         binding.webview.loadUrl(url);
+    }
+
+
+    private Boolean getData(String key, Boolean def_value) {
+        return PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key, def_value);
     }
 
 

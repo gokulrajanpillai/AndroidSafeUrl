@@ -44,7 +44,7 @@
                 android:layout_height="@dimen/toolbar_height"
                 android:weightSum="3">
                 <TextView
-                    android:text="Disable File Access"
+                    android:text="Enable File Access"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="@dimen/default_text_size"
@@ -65,7 +65,7 @@
                 android:layout_height="@dimen/toolbar_height"
                 android:weightSum="3">
                 <TextView
-                    android:text="Disable Javascript"
+                    android:text="Enable Javascript"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="@dimen/default_text_size"
@@ -86,7 +86,7 @@
                 android:layout_height="@dimen/toolbar_height"
                 android:weightSum="3">
                 <TextView
-                    android:text="Disable Geolocation Data"
+                    android:text="Enable Geolocation Data"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="@dimen/default_text_size"
