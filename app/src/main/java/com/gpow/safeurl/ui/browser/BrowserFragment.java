@@ -91,7 +91,6 @@ public class BrowserFragment extends Fragment {
         Boolean flagGeolocationData = getData("safeurl.GeolocationData",false);
         Boolean flagFileAccess = getData("safeurl.FileAccess",false);
 
-        //
         binding.webview.getSettings().setJavaScriptEnabled(flagJavascript);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.webview.getSettings().setSafeBrowsingEnabled(flagSafeBrowser);
